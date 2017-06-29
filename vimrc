@@ -62,6 +62,12 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/gnupg.vim'
 Plug 'vim-scripts/matchit.zip'
 Plug 'xolox/vim-misc'
+
+" Personal
+Plug 'chase/vim-ansible-yaml'
+Plug 'itchyny/vim-haskell-indent'
+" Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
+
 call plug#end()
 
 " Add xptemplate global personal directory value
@@ -472,12 +478,12 @@ inoremap <c-q><c-p> <c-k>p*
 inoremap <c-q><c-f> <c-k>f*
 
 " ergonomics
-inoremap <C-H> (
-inoremap <C-J> )
-inoremap <C-K> {
-inoremap <C-L> }
-inoremap <C-D> *
-inoremap <C-F> _
+"inoremap <C-H> (
+"inoremap <C-J> )
+"inoremap <C-K> {
+"inoremap <C-L> }
+"inoremap <C-D> *
+"inoremap <C-F> _
 
 function! ClearText(type, ...)
   let sel_save = &selection
@@ -689,6 +695,9 @@ let g:ctrlp_tabpage_position = 'c'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_root_markers = ['.project.root']
 let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.idea/|\.git/|/build/|/project/project|/target/config-classes|/target/docker|/target/k8s|/target/protobuf_external|/target/scala-2\.[0-9]*/api|/target/scala-2\.[0-9]*/classes|/target/scala-2\.[0-9]*/e2etest-classes|/target/scala-2\.[0-9]*/it-classes|/target/scala-2\.[0-9]*/resolution-cache|/target/scala-2\.[0-9]*/sbt-0.13|/target/scala-2\.[0-9]*/test-classes|/target/streams|/target/test-reports|/target/universal|\.jar$"'
+" let g:ctrlp_user_command = 'find %s -type f | grep -E "\.(gradle|sbt|conf|scala|java|rb|sh|bash|py|json|js|xml)$" | grep -v -E "/build/|/quickfix|/resolution-cache|/streams|/admin/target|/classes/|/test-classes/|/sbt-0.13/|/cache/|/project/target|/project/project|/test-reports|/it-classes"'
+" let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.git/|/build/|/quickfix|/resolution-cache|/streams|/admin/target|/classes/|/test-classes/|/sbt-0.13/|/cache/|/project/target|/project/project|/test-reports|/it-classes|\.jar$"'
+" let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.idea/|\.git/|/build/|/target|/project/project|\.terraform|\.tfstate(\.backup)?$|\.jar$"'
 let g:ctrlp_max_depth = 30
 let g:ctrlp_max_files = 0
 let g:ctrlp_open_new_file = 'r'
@@ -822,7 +831,10 @@ endfunction
 function! MaybeRunMakeTags()
   let root = FindCodeDirOrRoot()
   if root != "/"
-    call system("~/bin/maketags -c " . root . " &")
+    call system("~/.vim/bin/maketags -c " . root . "&")
+    echo "maketags FINISHED"
+  else
+    echo "maketags DID NOT RUN"
   endif
 endfunction
 
@@ -839,6 +851,10 @@ augroup dw_scala
 augroup END
 
 command! RunBranchSwitch call MaybeRunBranchSwitch()
+
+command! RunMakeTags call MaybeRunMakeTags()
+
+nmap ,rt :RunMakeTags<cr>
 
 "-----------------------------------------------------------------------------
 " Functions
@@ -884,6 +900,15 @@ function! IndentToNextBraceInLineAbove()
 endfunction
 
 nmap <silent> ,ii :call IndentToNextBraceInLineAbove()<cr>
+
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
 
 function! DiffCurrentFileAgainstAnother(snipoff, replacewith)
   let currentFile = expand('%:p')
@@ -1044,10 +1069,10 @@ iab Exmaples   Examples
 iab exmaples   examples
 iab Fone       Phone
 iab fone       phone
-iab Lifecycle  Life-cycle
-iab lifecycle  life-cycle
-iab Lifecycles Life-cycles
-iab lifecycles life-cycles
+"iab Lifecycle  Life-cycle
+"iab lifecycle  life-cycle
+"iab Lifecycles Life-cycles
+"iab lifecycles life-cycles
 iab Seperate   Separate
 iab seperate   separate
 iab Seureth    Suereth
@@ -1086,3 +1111,30 @@ endif
 if filereadable($HOME . "/.vimrc.local")
   execute "source " . $HOME . "/.vimrc.local"
 endif
+
+"-----------------------------------------------------------------------------
+" Dockerfile syntax
+"-----------------------------------------------------------------------------
+autocmd BufNewFile,BufRead Dockerfile set syntax=Dockerfile
+
+let vim_markdown_preview_hotkey='<C-m>'
+
+"-----------------------------------------------------------------------------
+" Terraform settings
+"-----------------------------------------------------------------------------
+let g:terraform_fmt_on_save = 1
+let g:terraform_align=1
+
+"-----------------------------------------------------------------------------
+" Home row brackets
+"-----------------------------------------------------------------------------
+inoremap <C-K> {
+inoremap <C-L> }
+
+"-----------------------------------------------------------------------------
+" Use Ansible plugin for YAML syntax. This will give me jinja highlighting in
+" yaml files.
+"-----------------------------------------------------------------------------
+
+autocmd BufNewFile,BufRead *.yaml set ft=ansible
+autocmd BufNewFile,BufRead *.yaml UltiSnipsAddFiletypes ansible.yaml
