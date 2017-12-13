@@ -270,6 +270,9 @@ nmap <silent> ,wa :call BWipeoutAll()<cr>
 " Toggle paste mode
 nmap <silent> ,p :set invpaste<CR>:set paste?<CR>
 
+" Toggle spell mode
+nmap <silent> ,ss :setlocal spell! spell?<CR>
+
 " cd to the directory containing the file in the buffer
 nmap <silent> ,cd :lcd %:h<CR>
 nmap <silent> ,cr :lcd <c-r>=FindCodeDirOrRoot()<cr><cr>
@@ -1146,3 +1149,9 @@ autocmd BufNewFile,BufRead *.yaml UltiSnipsAddFiletypes ansible.yaml
 "-----------------------------------------------------------------------------
 
 let g:rustfmt_autosave = 1
+
+"-----------------------------------------------------------------------------
+" Command Aliases
+"-----------------------------------------------------------------------------
+
+command! W w
