@@ -67,6 +67,8 @@ Plug 'xolox/vim-misc'
 Plug 'chase/vim-ansible-yaml'
 Plug 'itchyny/vim-haskell-indent'
 " Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
+Plug 'rust-lang/rust.vim'
+Plug 'cespare/vim-toml'
 
 call plug#end()
 
@@ -1138,3 +1140,9 @@ inoremap <C-L> }
 
 autocmd BufNewFile,BufRead *.yaml set ft=ansible
 autocmd BufNewFile,BufRead *.yaml UltiSnipsAddFiletypes ansible.yaml
+
+"-----------------------------------------------------------------------------
+" Rust settings
+"-----------------------------------------------------------------------------
+
+let g:rustfmt_autosave = 1
