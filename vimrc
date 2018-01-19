@@ -66,7 +66,6 @@ Plug 'xolox/vim-misc'
 " Personal
 Plug 'chase/vim-ansible-yaml'
 Plug 'itchyny/vim-haskell-indent'
-" Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 Plug 'rust-lang/rust.vim'
 Plug 'cespare/vim-toml'
 
