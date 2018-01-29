@@ -1150,6 +1150,36 @@ let g:rustfmt_autosave = 1
 nmap ,rr :w<cr>:Crun<cr>
 
 "-----------------------------------------------------------------------------
+" Helm settings
+"-----------------------------------------------------------------------------
+
+function! FindHelmRoot()
+  let fileDir = expand('%:p:h')
+  let codeDir = FindCodeDirOrRoot()
+  let chartFile = findfile("Chart.yaml", fileDir . ";" . codeDir, 1)
+
+  if strlen(chartFile) == 0
+    echo "No Helm root found"
+    return 1
+  endif
+
+  let helmRoot = fnamemodify(chartFile, ":p:h")
+  return helmRoot
+endfunction
+
+function! HelmDryRunInstall()
+  let helmRoot = FindHelmRoot()
+  if helmRoot == 1
+    return 1
+  endif
+
+  exe "!helm install --dry-run --debug " . shellescape(helmRoot, 1)
+endfunction
+
+command! HelmDryRunInstall call HelmDryRunInstall()
+nmap ,hd :HelmDryRunInstall<cr>
+
+"-----------------------------------------------------------------------------
 " Command Aliases
 "-----------------------------------------------------------------------------
 
