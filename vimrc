@@ -1147,6 +1147,7 @@ autocmd BufNewFile,BufRead *.yaml set ft=ansible
 "-----------------------------------------------------------------------------
 
 let g:rustfmt_autosave = 1
+nmap ,rr :w<cr>:Crun<cr>
 
 "-----------------------------------------------------------------------------
 " Command Aliases
