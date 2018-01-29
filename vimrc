@@ -1140,7 +1140,7 @@ inoremap <C-L> }
 "-----------------------------------------------------------------------------
 
 autocmd BufNewFile,BufRead *.yaml set ft=ansible
-autocmd BufNewFile,BufRead *.yaml UltiSnipsAddFiletypes ansible.yaml
+"" autocmd BufNewFile,BufRead *.yaml UltiSnipsAddFiletypes ansible.yaml
 
 "-----------------------------------------------------------------------------
 " Rust settings
