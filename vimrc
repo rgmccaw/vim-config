@@ -68,6 +68,8 @@ Plug 'chase/vim-ansible-yaml'
 Plug 'itchyny/vim-haskell-indent'
 Plug 'rust-lang/rust.vim'
 Plug 'cespare/vim-toml'
+Plug 'saltstack/salt-vim'
+Plug 'mustache/vim-mustache-handlebars'
 
 call plug#end()
 
@@ -520,8 +522,11 @@ set nocursorline
 set nocursorcolumn
 
 if has("mac")
-  let g:main_font = "Source\\ Code\\ Pro\\ Medium:h11"
-  let g:small_font = "Source\\ Code\\ Pro\\ Medium:h2"
+  set macligatures
+  "let g:main_font = "Source\\ Code\\ Pro\\ Medium:h11"
+  "let g:small_font = "Source\\ Code\\ Pro\\ Medium:h2"
+  let g:main_font = "Hasklig:h10"
+  let g:small_font = "Hasklig:h2"
 else
   let g:main_font = "DejaVu\\ Sans\\ Mono\\ 9"
   let g:small_font = "DejaVu\\ Sans\\ Mono\\ 2"
@@ -1120,7 +1125,7 @@ endif
 "-----------------------------------------------------------------------------
 autocmd BufNewFile,BufRead Dockerfile set syntax=Dockerfile
 
-let vim_markdown_preview_hotkey='<C-m>'
+"let vim_markdown_preview_hotkey='<C-m>'
 
 "-----------------------------------------------------------------------------
 " Terraform settings
@@ -1173,11 +1178,21 @@ function! HelmDryRunInstall()
     return 1
   endif
 
-  exe "!helm install --dry-run --debug " . shellescape(helmRoot, 1)
+  exe ":sp|:enew|:r!helm install --dry-run --debug " . shellescape(helmRoot, 1)
+  exe ":set buftype=nofile|:set ft=ansible"
+  exe ":nnoremap <buffer> <silent> q :q<cr>"
 endfunction
 
 command! HelmDryRunInstall call HelmDryRunInstall()
 nmap ,hd :HelmDryRunInstall<cr>
+
+"-----------------------------------------------------------------------------
+" Markdown settings
+"-----------------------------------------------------------------------------
+
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_toml_frontmatter = 1
+let g:vim_markdown_json_frontmatter = 1
 
 "-----------------------------------------------------------------------------
 " Command Aliases
@@ -1186,3 +1201,6 @@ nmap ,hd :HelmDryRunInstall<cr>
 command! W w
 
 nmap ,jq :%! jq . <cr>
+
+nmap ,u yyp<c-v>$r-
+imap <c-u><c-u> <esc>yyp<c-v>$r-A

@@ -1,1 +1,1 @@
-call togglebg#map("<c-w>t")
+" call togglebg#map("<c-w>t")
