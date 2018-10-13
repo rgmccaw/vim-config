@@ -1148,13 +1148,13 @@ inoremap <C-L> }
 "-----------------------------------------------------------------------------
 
 autocmd BufNewFile,BufRead *.yaml set ft=ansible
-"" autocmd BufNewFile,BufRead *.yaml UltiSnipsAddFiletypes ansible.yaml
 
 "-----------------------------------------------------------------------------
 " Rust settings
 "-----------------------------------------------------------------------------
 
 let g:rustfmt_autosave = 1
+let g:rustfmt_emit_files = 1
 nmap ,rr :w<cr>:Crun<cr>
 
 "-----------------------------------------------------------------------------
