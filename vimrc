@@ -29,8 +29,13 @@ let g:indexer_debugLogLevel = 2
 set nocompatible
 filetype off 
 
-call plug#begin('~/.vim/plugged')
-" Plug 'bfredl/nvim-miniyank'
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.local/share/nvim/plugged')
 Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'prognostic/plasticine'
 Plug 'hashivim/vim-terraform'
@@ -51,7 +56,7 @@ Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv'
 Plug 'kien/ctrlp.vim'
 Plug 'nanotech/jellybeans.vim'
-if has("gui")
+if has("gui") || has('gui_running') || has('gui_vimr')
   Plug 'nathanaelkane/vim-indent-guides'
 endif
 Plug 'mileszs/ack.vim'
@@ -522,7 +527,7 @@ set nocursorline
 set nocursorcolumn
 
 if has("mac")
-  set macligatures
+  " set macligatures
   "let g:main_font = "Source\\ Code\\ Pro\\ Medium:h11"
   "let g:small_font = "Source\\ Code\\ Pro\\ Medium:h2"
   let g:main_font = "Hasklig:h10"
@@ -1124,8 +1129,6 @@ endif
 " Dockerfile syntax
 "-----------------------------------------------------------------------------
 autocmd BufNewFile,BufRead Dockerfile set syntax=Dockerfile
-
-"let vim_markdown_preview_hotkey='<C-m>'
 
 "-----------------------------------------------------------------------------
 " Terraform settings
