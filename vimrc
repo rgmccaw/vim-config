@@ -1102,7 +1102,7 @@ iab teh        the
 "-----------------------------------------------------------------------------
 if has('gui_running') || has('gui_vimr')
   set background=light
-  colorscheme xoria256
+  colorscheme Atelier_LakesideLight
   if has('gui_running')
     exe "set guifont=" . g:main_font
     if !exists("g:vimrcloaded")
