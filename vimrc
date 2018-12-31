@@ -56,12 +56,9 @@ Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv'
 Plug 'kien/ctrlp.vim'
 Plug 'nanotech/jellybeans.vim'
-if has("gui") || has('gui_running') || has('gui_vimr')
-  Plug 'nathanaelkane/vim-indent-guides'
-endif
 Plug 'mileszs/ack.vim'
 Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive', { 'tag': 'v2.5' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/gnupg.vim'
@@ -75,6 +72,9 @@ Plug 'rust-lang/rust.vim'
 Plug 'cespare/vim-toml'
 Plug 'saltstack/salt-vim'
 Plug 'mustache/vim-mustache-handlebars'
+if has("gui") || has('gui_running') || has('gui_vimr')
+  Plug 'nathanaelkane/vim-indent-guides'
+endif
 
 call plug#end()
 
