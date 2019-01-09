@@ -58,7 +58,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'mileszs/ack.vim'
 Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive', { 'tag': 'v2.5' }
+Plug 'tpope/vim-fugitive', { 'tag': 'v*' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/gnupg.vim'
@@ -1207,3 +1207,11 @@ nmap ,jq :%! jq . <cr>
 
 nmap ,u yyp<c-v>$r-
 imap <c-u><c-u> <esc>yyp<c-v>$r-A
+
+function! NewScratch()
+  exe ":enew|:set buftype=nofile"
+  exe ":nnoremap <buffer> <silent> q :q<cr>"
+endfunction
+
+command! NewScratch call NewScratch()
+nmap ,ns :NewScratch<cr>
