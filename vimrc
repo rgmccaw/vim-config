@@ -54,11 +54,12 @@ Plug 'elzr/vim-json'
 Plug 'endel/vim-github-colorscheme'
 Plug 'godlygeek/tabular'
 Plug 'gregsexton/gitv'
-Plug 'kien/ctrlp.vim'
+""Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'mileszs/ack.vim'
 Plug 'sjl/gundo.vim'
-Plug 'tpope/vim-fugitive', { 'tag': 'v*' }
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/gnupg.vim'
@@ -527,7 +528,7 @@ set nocursorline
 set nocursorcolumn
 
 if has("mac")
-  " set macligatures
+  set macligatures
   "let g:main_font = "Source\\ Code\\ Pro\\ Medium:h11"
   "let g:small_font = "Source\\ Code\\ Pro\\ Medium:h2"
   let g:main_font = "Hasklig:h10"
@@ -561,7 +562,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 "-----------------------------------------------------------------------------
 " Thanks to Drew Neil
 autocmd User fugitive
-      \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+      \ if get(b:, 'fugitive_type', '') =~# '^\%(tree\|blob\)$' |
       \  noremap <buffer> .. :edit %:h<cr> |
       \ endif
 autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -707,7 +708,7 @@ let g:ctrlp_switch_buffer = 'E'
 let g:ctrlp_tabpage_position = 'c'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_root_markers = ['.project.root']
-let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.idea/|\.git/|/build/|/project/project|/target/config-classes|/target/docker|/target/k8s|/target/protobuf_external|/target/scala-2\.[0-9]*/api|/target/scala-2\.[0-9]*/classes|/target/scala-2\.[0-9]*/e2etest-classes|/target/scala-2\.[0-9]*/it-classes|/target/scala-2\.[0-9]*/resolution-cache|/target/scala-2\.[0-9]*/sbt-0.13|/target/scala-2\.[0-9]*/test-classes|/target/streams|/target/test-reports|/target/universal|\.jar$"'
+let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.idea/|\.git/|/build/|/project/project|/target/config-classes|/target/docker|/target/k8s|/target/protobuf_external|/target/scala-2\.[0-9]*/api|/target/scala-2\.[0-9]*/classes|/target/scala-2\.[0-9]*/e2etest-classes|/target/scala-2\.[0-9]*/it-classes|/target/scala-2\.[0-9]*/resolution-cache|/target/scala-2\.[0-9]*/sbt-0.13|/target/scala-2\.[0-9]*/test-classes|/target/streams|/target/test-reports|/target/universal|/target/scala-2\.[0-9]*/fun-classes|\.jar$"'
 " let g:ctrlp_user_command = 'find %s -type f | grep -E "\.(gradle|sbt|conf|scala|java|rb|sh|bash|py|json|js|xml)$" | grep -v -E "/build/|/quickfix|/resolution-cache|/streams|/admin/target|/classes/|/test-classes/|/sbt-0.13/|/cache/|/project/target|/project/project|/test-reports|/it-classes"'
 " let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.git/|/build/|/quickfix|/resolution-cache|/streams|/admin/target|/classes/|/test-classes/|/sbt-0.13/|/cache/|/project/target|/project/project|/test-reports|/it-classes|\.jar$"'
 " let g:ctrlp_user_command = 'find %s -type f | grep -v -E "\.idea/|\.git/|/build/|/target|/project/project|\.terraform|\.tfstate(\.backup)?$|\.jar$"'
@@ -1215,3 +1216,12 @@ endfunction
 
 command! NewScratch call NewScratch()
 nmap ,ns :NewScratch<cr>
+
+function! CopyPathOfCurrentFile()
+  exe ":! echo % | pbcopy"
+endfunction
+command! CopyPathOfCurrentFile call CopyPathOfCurrentFile()
+nmap ,cfp :CopyPathOfCurrentFile<cr>
+
+""let g:scala_sort_across_groups=1
+""let g:scala_first_party_namespaces="com.netsuite"
